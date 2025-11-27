@@ -1,10 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${pageTitle}">Student Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
-<body>
+
+<body class="dashboard-bg">
+
+<div class="dashboard-container">
+    <!-- Title -->
+    <h1 class="dashboard-title">Student Dashboard</h1>
+    <p class="dashboard-subtitle">Welcome back!</p>
+
+    <!-- ================================
+         Section 1 — Stats Cards
+    ================================= -->
+    <div class="stats-grid">
+
+        <div class="stats-card">
+            <h2 th:text="${stats.teamCount}">0</h2>
+            <p>Teams</p>
+        </div>
+
+        <div class="stats-card">
+            <h2 th:text="${stats.activeSubmissions}">0</h2>
+            <p>Active Submissions</p>
+        </div>
+
+        <div class="stats-card">
+            <h2 th:text="${stats.pendingFeedback}">0</h2>
+            <p>Pending Feedback</p>
+        </div>
+
+    </div>
+
+    <!-- ================================
+         Section 2 — Upcoming Deadlines
+    ================================= -->
+    <h3 class="section-header">Upcoming Deadlines</h3>
+
+    <table class="dash-table">
+        <thead>
+        <tr>
+            <th>Submission</th>
+            <th>Course</th>
+            <th>Due</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="d : ${deadlines}">
+            <td th:text="${d.submissionTitle}"></td>
+            <td th:text="${d.courseName}"></td>
+            <td th:text="${d.dueText}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- ================================
+         Section 3 — My Teams
+    ================================= -->
+    <h3 class="section-header">My Teams</h3>
+
+    <div class="team-grid">
+        <div class="team-card" th:each="t : ${teams}">
+            <h4 th:text="${t.teamName}"></h4>
+            <p th:text="${t.courseName}"></p>
+        </div>
+    </div>
+    <!-- ================================
+         Section 4 — Recent Submissions
+    ================================= -->
+    <h3 class="section-header">Recent Submissions</h3>
+
+    <table class="dash-table">
+        <thead>
+        <tr>
+            <th>Submission</th>
+            <th>Course</th>
+            <th>Status</th>
+            <th>Last Updated</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="s : ${recentSubmissions}">
+            <td th:text="${s.submissionTitle}"></td>
+            <td th:text="${s.courseName}"></td>
+
+            <!-- status badge based on status -->
+            <td>
+                    <span class="badge"
+                          th:classappend="${s.status == 'Graded'} ? ' badge-success' : (${s.status == 'Pending Review'} ? ' badge-warning' : ' badge-info')"
+                          th:text="${s.status}">
+                    </span>
+            </td>
+
+            <td th:text="${s.lastUpdated}"></td>
+            <td>
+                <a th:href="@{'/student/submission/' + ${s.submissionId}}">View →</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
 
 </body>
 </html>
