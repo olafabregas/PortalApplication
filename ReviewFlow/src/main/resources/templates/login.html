@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>ReviewFlow — Login</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css"/>
+</head>
+<body>
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="app-logo">
+            <div class="app-logo-badge">RF</div>
+            <div class="app-logo-text">ReviewFlow</div>
+        </div>
+
+        <h1 class="auth-title">Welcome Back</h1>
+        <p class="auth-subtitle">Your hub for collaborative academic review.</p>
+
+        <form th:action="@{/login}" th:object="${loginRequest}" method="post">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" th:field="*{email}" placeholder="Enter your email"/>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" th:field="*{password}" placeholder="Enter your password"/>
+            </div>
+
+            <div th:if="${loginError}" class="error-text" th:text="${loginError}"></div>
+            <div th:if="${message}" class="message-text" th:text="${message}"></div>
+
+            <button class="primary" type="submit">Sign In</button>
+        </form>
+
+        <div class="footer-links">
+            <a class="text-link" th:href="@{/forgot-password}">Forgot Password?</a>
+            <span>Need an account? <a class="text-link" th:href="@{/register}">Contact your administrator / Register</a></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
