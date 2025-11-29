@@ -1,0 +1,162 @@
+:root {
+  --bg: #050815;
+  --card-bg: #101827;
+  --accent: #2563eb;
+  --accent-soft: #1d4ed8;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --danger: #f97373;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  background: radial-gradient(circle at top left, #1e293b 0, #020617 45%, #000 100%);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.auth-wrapper {
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem;
+}
+
+.auth-card {
+  background: radial-gradient(circle at top, #111827, #020617);
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  padding: 2.5rem 2.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.app-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  margin-bottom: 1.5rem;
+}
+
+.app-logo-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: .9rem;
+  background: linear-gradient(135deg, #2563eb, #38bdf8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+}
+
+.app-logo-text {
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.auth-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin-bottom: .25rem;
+}
+
+.auth-subtitle {
+  color: var(--muted);
+  font-size: .9rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-size: .8rem;
+  font-weight: 500;
+  margin-bottom: .35rem;
+  color: var(--muted);
+}
+
+input, select {
+  width: 100%;
+  padding: .7rem .9rem;
+  border-radius: .7rem;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: rgba(15, 23, 42, .8);
+  color: var(--text);
+  font-size: .9rem;
+}
+
+input::placeholder {
+  color: #6b7280;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, .7);
+}
+
+button.primary {
+  width: 100%;
+  border: none;
+  border-radius: .9rem;
+  padding: .8rem 1rem;
+  font-weight: 600;
+  font-size: .95rem;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  cursor: pointer;
+  margin-top: .25rem;
+}
+
+button.primary:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
+
+.text-link {
+  font-size: .8rem;
+  color: #60a5fa;
+  text-decoration: none;
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
+.footer-links {
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+.error-text {
+  color: var(--danger);
+  font-size: .8rem;
+  margin-top: .2rem;
+}
+
+.message-text {
+  color: #4ade80;
+  font-size: .8rem;
+  margin-top: .4rem;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-meta {
+  font-size: .8rem;
+  color: var(--muted);
+}

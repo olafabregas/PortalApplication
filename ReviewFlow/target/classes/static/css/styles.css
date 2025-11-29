@@ -1,0 +1,354 @@
+:root {
+    --bg: #020617;
+    --bg-soft: #050816;
+    --card-bg: rgba(15, 23, 42, 0.96);
+    --card-border: rgba(148, 163, 184, 0.35);
+    --accent: #2563eb;
+    --accent-soft: #1d4ed8;
+    --accent-2: #38bdf8;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --danger: #f97373;
+    --danger-border: #f97373;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+    background:
+            radial-gradient(circle at top left, #1e293b 0, #020617 45%, #000 100%);
+    color: var(--text);
+}
+
+/* ====== Shared layout ====== */
+
+.layout-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 460px;
+    background: radial-gradient(circle at top, #0b1220, #020617 80%);
+    border-radius: 1.4rem;
+    padding: 2.5rem 2.75rem;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.85);
+    border: 1px solid var(--card-border);
+}
+
+/* App brand at top of cards */
+
+.app-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    margin-bottom: 1.8rem;
+}
+
+.app-logo-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: .95rem;
+    color: white;
+}
+
+.app-logo-text {
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: .08em;
+}
+
+/* Headings */
+
+.auth-title {
+    font-size: 1.9rem;
+    font-weight: 900;
+    margin: 0 0 .35rem;
+    text-align: center;
+}
+
+.auth-subtitle {
+    color: var(--muted);
+    font-size: .9rem;
+    margin: 0 0 1.8rem;
+    text-align: center;
+}
+
+/* Forms */
+
+.form-group {
+    margin-bottom: 1.1rem;
+}
+
+label {
+    display: block;
+    font-size: .8rem;
+    font-weight: 500;
+    margin-bottom: .4rem;
+    color: var(--muted);
+}
+
+input,
+select {
+    width: 100%;
+    padding: .7rem .9rem;
+    border-radius: .8rem;
+    border: 1px solid rgba(148, 163, 184, 0.55);
+    background: rgba(15, 23, 42, 0.95);
+    color: var(--text);
+    font-size: .9rem;
+}
+
+input::placeholder {
+    color: #6b7280;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.8);
+}
+
+/* Primary button */
+
+button.primary {
+    width: 100%;
+    border-radius: 999px;
+    border: none;
+    padding: .85rem 1rem;
+    font-weight: 600;
+    font-size: .95rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+    color: #f9fafb;
+    cursor: pointer;
+    margin-top: .25rem;
+}
+
+button.primary:hover {
+    background: linear-gradient(135deg, var(--accent-soft), #1e40af);
+}
+
+/* Links */
+
+.text-link {
+    font-size: .8rem;
+    color: #60a5fa;
+    text-decoration: none;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+}
+
+.footer-links {
+    margin-top: 1.5rem;
+    font-size: .8rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: center;
+}
+
+.footer-links span {
+    text-align: center;
+}
+
+/* Messages */
+
+.error-text {
+    color: var(--danger);
+    font-size: .8rem;
+    margin-top: .3rem;
+}
+
+.message-text {
+    color: #4ade80;
+    font-size: .8rem;
+    margin-top: .3rem;
+}
+
+/* Error field styling (like red email box on signup) */
+
+.input-error {
+    border-color: var(--danger-border) !important;
+    box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.7);
+}
+
+/* ====== Password strength bar (visual only) ====== */
+
+.password-strength {
+    margin-top: .45rem;
+    display: flex;
+    gap: .25rem;
+    align-items: center;
+}
+
+.password-strength-bars {
+    flex: 1;
+    display: flex;
+    gap: .25rem;
+}
+
+.password-strength-bars span {
+    flex: 1;
+    height: 4px;
+    border-radius: 999px;
+    background: #1f2937;
+}
+
+.password-strength-bars span.active {
+    background: #22c55e;
+}
+
+.password-strength-label {
+    font-size: .7rem;
+    color: #22c55e;
+}
+
+/* ====== Split-screen login layout ====== */
+
+.layout-login {
+    display: flex;
+    min-height: 100vh;
+    color: var(--text);
+}
+
+.login-panel-wrapper {
+    flex: 0 0 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: radial-gradient(circle at top left, #020617 0, #020617 45%, #000 100%);
+}
+
+.login-panel {
+    width: 100%;
+    max-width: 420px;
+    background: radial-gradient(circle at top, #020617, #020617 80%);
+    border-radius: 1.4rem;
+    padding: 2.3rem 2.5rem 2.1rem;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.9);
+    border: 1px solid var(--card-border);
+}
+
+.login-footer {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: .45rem;
+    font-size: .8rem;
+    color: var(--muted);
+}
+
+.login-footer-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Hero right side */
+
+.login-hero {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    padding: 3rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+            radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 55%),
+            radial-gradient(circle at bottom right, rgba(129, 140, 248, 0.18), transparent 60%),
+            radial-gradient(circle at top right, rgba(37, 99, 235, 0.16), transparent 55%),
+            #020617;
+}
+
+.hero-content {
+    max-width: 520px;
+}
+
+.hero-title {
+    font-size: 2.15rem;
+    font-weight: 800;
+    margin-bottom: .6rem;
+}
+
+.hero-subtitle {
+    font-size: .95rem;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+/* Light streaks */
+
+.login-hero::before,
+.login-hero::after {
+    content: "";
+    position: absolute;
+    width: 140%;
+    height: 8px;
+    background: linear-gradient(90deg, transparent, #38bdf8, #6366f1, transparent);
+    opacity: 0.7;
+    filter: blur(1px);
+}
+
+.login-hero::before {
+    top: 40%;
+    left: -10%;
+    transform: rotate(8deg);
+}
+
+.login-hero::after {
+    top: 55%;
+    left: -15%;
+    transform: rotate(12deg);
+    opacity: 0.5;
+}
+
+/* Responsive: stack on small screens */
+
+@media (max-width: 900px) {
+    .layout-login {
+        flex-direction: column;
+    }
+
+    .login-panel-wrapper {
+        flex: none;
+        width: 100%;
+        padding: 1.5rem 1.2rem 1rem;
+    }
+
+    .login-panel {
+        max-width: 440px;
+    }
+
+    .login-hero {
+        display: none;
+    }
+
+    .layout-centered {
+        padding: 1.5rem 1.2rem;
+    }
+}
