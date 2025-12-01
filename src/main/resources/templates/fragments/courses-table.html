@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="courseTable(courses)">
+<!-- Courses Table -->
+<table class="table table-hover user-table">
+
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Course</th>
+        <th>Code</th>
+        <th>Instructor</th>
+        <th>Status</th>
+        <th class="col-actions"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="c : ${courses}">
+
+        <td th:text="${c.id}"></td>
+
+        <td th:text="${c.name}"></td>
+
+        <td th:text="${c.code}"></td>
+        <td th:text="${c.instructor.firstName + ' ' + c.instructor.lastName}"></td>
+
+        <!-- Status Badge -->
+        <td>
+                <span class="badge"
+                      th:classappend="${c.active} ? ' bg-success' : ' bg-warning'"
+                      th:text="${c.active} ? 'ACTIVE' : 'DISABLED'">
+                </span>
+        </td>
+
+        <!-- Actions -->
+        <td class="actions-cell">
+            <!-- View -->
+            <a th:href="@{/admin/courses/{id}(id=${c.id})}"
+               class="btn btn-secondary">
+                View
+            </a>
+        </td>
+
+    </tr>
+    </tbody>
+
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <title>Team</title>
+</head>
+<body>
+<div class="container">
+    <!-- Page Title -->
+    <h1 class="page-title">Team Details</h1>
+
+    <!-- Back Button -->
+    <div class="action-bar-single">
+        <a th:href="@{/admin/teams}" class="btn btn-secondary">&larr; Teams</a>
+    </div>
+    <!-- Delete Error -->
+    <div class="alert alert-danger" th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
+    <!-- Team Info Card -->
+    <div class="card entity-details-card">
+            <div class="entity-header">
+                <h2 class="entity-title" th:text="${team.name}"></h2>
+                <!-- Status -->
+                <p class="badge bg-big status-detail-item"
+                   th:classappend="${team.active} ? ' bg-success' : ' bg-warning'"
+                   th:text="${team.active} ? 'ACTIVE' : 'DISABLED'">
+                </p>
+            </div>
+            <div>
+                <span class="entity-header-subtext" th:text="${team.course.code + '-' + team.course.name}"></span>
+            </div>
+            <!-- Team Members -->
+            <div class="details-item">
+                <h3 class="section-title">Team Members</h3>
+
+                <div th:if="${team.members != null and !team.members.isEmpty()}">
+                    <ul>
+                        <li th:each="m : ${team.members}"
+                            th:text="${m.firstName + ' ' + m.lastName}">
+                        </li>
+                    </ul>
+                </div>
+
+                <div th:if="${team.members == null or team.members.isEmpty()}">
+                    <p>No team members assigned yet.</p>
+                </div>
+            </div>
+            <!-- Action Buttons -->
+            <div class="entity-action">
+
+                <a th:href="@{/admin/teams/edit/{id}(id=${team.id})}" class="btn btn-primary">
+                    Edit Team
+                </a>
+
+                <form th:action="@{/admin/teams/delete/{id}(id=${team.id})}"
+                      method="post"
+                      onsubmit="return confirm('Are you sure you want to delete this team?');"
+                      class="inline-form">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        <div>
+        <h3>Submissions</h3>
+        <table th:replace="fragments/submissions-table :: submissionsTable(${teamSubmissions})">
+
+        </table>
+        </div>
+        <div th:if="${team.active}">
+            <a th:href="@{/admin/submissions/create(teamId=${team.id})}"
+               class="btn btn-primary">
+                Create Submission
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

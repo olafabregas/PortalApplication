@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div th:fragment="submissionsTable(submissions)">
+<!-- Submissions Table -->
+<table class="table table-hover user-table">
+
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Course</th>
+        <th>Name</th>
+        <th>Submitted By</th>
+        <th>Submitted On</th>
+        <th class="col-actions"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="s : ${submissions}">
+
+        <td th:text="${s.id}"></td>
+        <td th:text="${s.team.course.code + '(' + s.team.name + ')'}"></td>
+        <td th:text="${s.name}"></td>
+        <td th:text="${s.student.firstName + ' ' + s.student.lastName}"></td>
+        <td th:text="${s.submittedAt}"></td>
+
+        <!-- Actions -->
+        <td class="actions-cell">
+            <!-- View -->
+            <a th:href="@{/admin/submissions/{id}(id=${s.id})}"
+               class="btn btn-secondary">
+                View
+            </a>
+        </td>
+
+    </tr>
+    </tbody>
+
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <title>User Details</title>
+</head>
+<body>
+
+<div class="container">
+    <!-- Page Title -->
+    <h1 class="page-title">User Details</h1>
+
+    <!-- Back Button -->
+    <div class="action-bar-single">
+        <a th:href="@{/admin/users}" class="btn btn-secondary">&larr; Users</a>
+    </div>
+    <!-- Delete Error -->
+    <div class="alert alert-danger" th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
+    <!-- User Info Card -->
+    <div class="card entity-details-card">
+        <div>
+            <div class="entity-header">
+                <h2 class="entity-title" th:text="${user.firstName + ' ' + user.lastName}"></h2>
+                <div class="status-detail">
+                    <span class="badge bg-role bg-big status-detail-item" th:text="${user.role}"></span>
+                    <!-- Status -->
+                    <span class="badge bg-big status-detail-item"
+                        th:classappend="${user.active} ? ' bg-success' : ' bg-warning'"
+                        th:text="${user.active} ? 'ACTIVE' : 'DISABLED'">
+                    </span>
+                </div>
+            </div>
+            <div >
+                <span class="entity-header-subtext" th:text="${user.email}"></span>
+            </div>
+        </div>
+        <!-- Action Buttons -->
+        <div class="entity-action">
+
+            <a th:href="@{/admin/users/edit/{id}(id=${user.id})}" class="btn btn-primary">
+                Edit User
+            </a>
+
+            <form th:action="@{/admin/users/delete/{id}(id=${user.id})}"
+                  method="post"
+                  onsubmit="return confirm('Are you sure you want to delete this user?');"
+                  class="inline-form">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+        <div th:if="${#lists.isEmpty(courses)}" class="text-muted">
+            This user is not enrolled in / not teaching any courses.
+        </div>
+        <div th:if="${user.role.name() == 'STUDENT' && !#lists.isEmpty(courses)}" class="text-muted">
+            <h3>Courses</h3>
+            <table class="table table-hover user-table">
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Course</th>
+                    <th>Instructor</th>
+                    <th>Team</th>
+                    <th>Submissions</th>
+                    <th class="col-actions"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="c : ${courses}">
+                    <td th:text="${c.id}"></td>
+                    <td th:text="${c.code + '-' + c.name} "></td>
+                    <td th:text="${c.instructor.firstName + ' ' + c.instructor.lastName}"></td>
+                    <td>
+                        <span th:if="${teamMap[c.id] != null}"
+                                th:text="${teamMap[c.id].name}">
+                        </span>
+
+                        <span th:if="${teamMap[c.id] == null}">
+                            No team yet
+                        </span>
+                    </td>
+                    <td>
+                        <ul>
+                            <li th:each="s : ${submissionMap[c.id]}"
+                                th:text="${s.name}">
+                            </li>
+                        </ul>
+                    </td>
+
+                    <!-- Actions -->
+                    <td class="actions-cell">
+                        <!-- View -->
+                        <a th:href="@{/admin/courses/{id}(id=${c.id})}"
+                           class="btn btn-secondary">
+                            View
+                        </a>
+                    </td>
+
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <div th:if="${user.role.name() == 'INSTRUCTOR' && !#lists.isEmpty(courses)}" class="text-muted">
+            <h3>Courses</h3>
+            <table class="table table-hover user-table">
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Course</th>
+                    <th># of Students</th>
+                    <th># of Teams</th>
+                    <th class="col-actions"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="c : ${courses}">
+
+                    <td th:text="${c.id}"></td>
+                    <td th:text="${c.code + '-' + c.name} "></td>
+                    <!-- Number of Students -->
+                    <td th:text="${#lists.size(c.students)}"></td>
+                    <!-- Number of Teams -->
+                    <td th:text="${teamCounts[c.id]}"></td>
+                    <!-- Actions -->
+                    <td class="actions-cell">
+                        <!-- View -->
+                        <a th:href="@{/admin/courses/{id}(id=${c.id})}"
+                           class="btn btn-secondary">
+                            View
+                        </a>
+                    </td>
+
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+
+    </div>
+
+</div>
+
+</body>
+</html>
