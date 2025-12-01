@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <title>Enroll Student(s)</title>
+</head>
+<body>
+<div class="container">
+    <h1 class="page-title">Enroll Student(s)</h1>
+    <div class="action-bar">
+        <a th:href="@{/admin/courses/{id}(id=${course.id})}"  class="btn btn-secondary">&larr; Back To Course</a>
+    </div>
+    <div class="card">
+        <form th:action="@{'/admin/courses/' + ${course.id} + '/enroll'}"
+              method="post">
+
+            <div class="card-body">
+                <div class="form-group">
+                <label class="form-label">Select Students</label>
+
+                <label>
+                    <select name="studentIds"
+                            class="input-field"
+                            multiple
+                            size="6"
+                            required>
+
+                        <option th:each="s : ${availableStudents}"
+                                th:value="${s.id}"
+                                th:text="${s.firstName + ' ' + s.lastName}">
+                        </option>
+
+                    </select>
+                </label>
+                </div>
+                <small class="text-muted">
+                    Hold <b>Ctrl</b> (Windows) or <b>Command</b> (Mac) to select multiple.
+                </small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Enroll Selected Students
+            </button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

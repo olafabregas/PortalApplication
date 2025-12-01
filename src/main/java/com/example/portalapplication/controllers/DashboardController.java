@@ -28,7 +28,6 @@ public class DashboardController {
     public String studentDashboard(Model model) {
         int studentId = 1; // later retrieve logged in ID
 
-        model.addAttribute("pageTitle", "Student Dashboard");
         model.addAttribute("stats", studentService.getStats(studentId));
         model.addAttribute("deadlines", studentService.getUpcomingDeadlines(studentId));
         model.addAttribute("teams", studentService.getTeams(studentId));
@@ -42,8 +41,6 @@ public class DashboardController {
     @GetMapping("/instructor")
     public String instructorDashboard(Model model) {
         int instructorId = 101;
-
-        model.addAttribute("pageTitle", "Instructor Dashboard");
         model.addAttribute("stats", instructorService.getStats(instructorId));
         model.addAttribute("pendingReviews", instructorService.getPendingReviews(instructorId));
         model.addAttribute("courses", instructorService.getCourseOverview(instructorId));
@@ -56,8 +53,6 @@ public class DashboardController {
     // -----------------------------
     @GetMapping("/admin")
     public String adminDashboard(Model model) {
-
-        model.addAttribute("pageTitle", "Admin Dashboard");
         model.addAttribute("stats", adminService.getStats());
         return "dashboard/admin-dashboard";
     }

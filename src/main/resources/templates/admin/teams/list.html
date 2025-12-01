@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <title>Teams Management</title>
+</head>
+<body>
+<div class="container">
+
+    <!-- Page Title -->
+    <h1 class="page-title">Teams Management</h1>
+    <div class="alert alert-success" th:if="${success}">
+        <p th:text="${success}"></p>
+    </div>
+    <!-- Action Row -->
+    <div class="action-bar">
+        <!-- Search Box -->
+        <div class="form-group-inline">
+            <form method="get" th:action="@{/admin/teams}" class="search-form">
+                <label>
+                    <input type="text" name="search" class="input-search" th:value="${search}"
+                           placeholder="course or team name">
+                </label>
+                <button type="submit" class="btn btn-secondary">Search</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Teams Table -->
+    <table class="table table-hover user-table">
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Team Name</th>
+
+            <th>Course</th>
+            <th>Members</th>
+            <th>Status</th>
+            <th class="col-actions"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="t : ${teams}">
+
+            <td th:text="${t.id}"></td>
+
+            <td th:text="${t.name}"></td>
+
+            <td th:text="${t.course.name}"></td>
+            <td>
+                <ul>
+                    <li th:each="m : ${t.members}" th:text="${m.firstName + ' ' + m.lastName}"></li>
+                </ul>
+            </td>
+            <!-- Status Badge -->
+            <td>
+                <span class="badge"
+                      th:classappend="${t.active} ? ' bg-success' : ' bg-warning'"
+                      th:text="${t.active} ? 'ACTIVE' : 'DISABLED'">
+                </span>
+            </td>
+
+            <!-- Actions -->
+            <td class="actions-cell">
+                <!-- View -->
+                <a th:href="@{/admin/teams/{id}(id=${t.id})}"
+                   class="btn btn-secondary">
+                    View
+                </a>
+            </td>
+
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <title>Submission</title></head>
+<body>
+<div class="container">
+    <!-- Page Title -->
+    <h1 class="page-title">Submission Details</h1>
+
+    <!-- Back Button -->
+    <div class="action-bar-single">
+        <a th:href="@{/admin/submissions}" class="btn btn-secondary">&larr; Submissions</a>
+    </div>
+    <!-- Delete Error -->
+    <div class="alert alert-danger" th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
+    <!-- Submission Info Card -->
+    <div class="card entity-details-card">
+            <div class="entity-header">
+                <h2 class="entity-title" th:text="${submission.name}"></h2>
+            </div>
+            <!-- Submission Team-Course -->
+            <div>
+                <span class="entity-header-subtext" th:text="${submission.team.course.code + '(' +  submission.team.name + ')'}"></span>
+            </div>
+        <div class="entity-header">
+            <div class="details-item">
+                <span th:text="${'Submitted By: ' + submission.student.firstName + ' ' +  submission.student.lastName }"></span>
+            </div>
+            <div class="details-item">
+                <span th:text="${'Submitted On: ' + submission.submittedAt }"></span>
+                <span class="badge bg-danger" th:if="${submission.late}">late</span>
+                <span class="badge bg-success" th:if="${!submission.late}">on-time</span>
+            </div>
+            <div class="details-item">
+                <span th:text="${'Deadline: ' + submission.deadline }"></span>
+            </div>
+        </div>
+        <div>
+            <div class="details-item">
+                <span th:text="${'Grade: ' + submission.grade }"></span>
+            </div>
+            <div class="details-item">
+                <span th:text="${'Feedback: ' + submission.feedback }"></span>
+            </div>
+        </div>
+            <!-- Action Buttons -->
+            <div class="entity-action">
+
+                <a th:href="@{/admin/submissions/edit/{id}(id=${submission.id})}" class="btn btn-primary">
+                    Edit Team
+                </a>
+
+                <form th:action="@{/admin/submissions/delete/{id}(id=${submission.id})}"
+                      method="post"
+                      onsubmit="return confirm('Are you sure you want to delete this submission?');"
+                      class="inline-form">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+    </div>
+</div>
+</body>
+</html>

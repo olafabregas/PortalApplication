@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <title th:text="${isEdit} ?  'Update User': 'Create User'"></title>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Dynamic Page Title -->
+    <h1 class="page-title"
+        th:text="${isEdit ? 'Edit User' : 'Create User'}">
+    </h1>
+
+    <div class="action-bar">
+        <a th:href="@{/admin/users/{id}(id=${user.id})}" th:if="${isEdit}" class="btn btn-secondary">&larr; User</a>
+        <a th:href="@{/admin/users}" th:if="${!isEdit}" class="btn btn-secondary">&larr; Users</a>
+    </div>
+
+    <div class="card">
+
+        <!-- DYNAMIC FORM ACTION -->
+        <form   th:action="${formAction}"
+                th:object="${user}"
+                method="post">
+
+            <div class="card-body">
+                <input type="hidden" th:field="*{id}">
+                <!-- First Name -->
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <label>
+                        <input type="text" th:field="*{firstName}" class="input-field">
+                    </label>
+                </div>
+
+                <!-- Last Name -->
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <label>
+                        <input type="text" th:field="*{lastName}" class="input-field">
+                    </label>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <label>
+                        <input type="email" th:field="*{email}" class="input-field">
+                    </label>
+                </div>
+
+                <!-- Role -->
+                <div class="form-group">
+                    <label class="form-label">Role</label>
+                    <label>
+                        <select th:field="*{role}" class="input-field">
+                            <option value="">Select role...</option>
+                            <option value="STUDENT">Student</option>
+                            <option value="INSTRUCTOR">Instructor</option>
+                            <option value="ADMIN">Admin</option>
+                        </select>
+                    </label>
+                </div>
+
+                <!-- Status (only show on EDIT mode) -->
+                <div class="form-group" th:if="${isEdit}">
+                    <label class="form-label">Status</label>
+                    <label>
+                        <select th:field="*{active}" class="input-field">
+                            <option th:value="${true}">Active</option>
+                            <option th:value="${false}">Inactive</option>
+                        </select>
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+                <!-- Dynamic Button Text -->
+                <button type="submit" class="btn btn-primary"
+                        th:text="${isEdit}? 'Save Changes' : 'Create User'">
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+</body>
+</html>
