@@ -4,6 +4,7 @@ import com.example.portalapplication.models.Submission;
 import com.example.portalapplication.models.Team;
 import com.example.portalapplication.services.SubmissionService;
 import com.example.portalapplication.services.TeamService;
+import com.example.portalapplication.services.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,8 @@ public class AdminSubmissionController {
     private SubmissionService submissionService;
     @Autowired
     private TeamService teamService;
+    @Autowired
+    private VersionService versionService;
 
     // LIST + SEARCH
     @GetMapping
@@ -36,6 +39,7 @@ public class AdminSubmissionController {
             Model model
     ) {
         model.addAttribute("submission", submissionService.findById(id));
+        model.addAttribute("versions", versionService.findAllBySubmissionId(id));
 
         return "admin/submissions/view";
     }

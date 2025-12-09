@@ -56,21 +56,13 @@
                            th:value="${#temporals.format(submission.deadline, 'yyyy-MM-dd''T''HH:mm')}">
                 </label>
             </div>
-            <!-- Grade / Feedback only in edit -->
+            <!-- Grade only in edit -->
             <div class="form-group" th:if="${isEdit}">
                 <label class="form-label">Grade</label>
                 <label>
-                    <input type="number" step="10" th:field="*{grade}" class="input-field">
+                    <input type="number" step="0.1" th:field="*{grade}" class="input-field">
                 </label>
             </div>
-
-            <div class="form-group" th:if="${isEdit}">
-                <label class="form-label">Feedback</label>
-                <label>
-                    <textarea th:field="*{feedback}" class="input-field"></textarea>
-                </label>
-            </div>
-
         </div>
 
         <div class="card-footer">

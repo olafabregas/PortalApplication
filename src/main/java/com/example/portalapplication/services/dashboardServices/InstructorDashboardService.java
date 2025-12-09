@@ -1,74 +1,166 @@
 package com.example.portalapplication.services.dashboardServices;
 
+import com.example.portalapplication.models.Feedback;
+import com.example.portalapplication.models.Submission;
+import com.example.portalapplication.models.Course;
+import com.example.portalapplication.models.SubmissionVersion;
 import com.example.portalapplication.models.dashboardDTO.instructor.InstructorCourseOverviewDTO;
 import com.example.portalapplication.models.dashboardDTO.instructor.InstructorDashboardStatsDTO;
 import com.example.portalapplication.models.dashboardDTO.instructor.InstructorPendingReviewDTO;
 import com.example.portalapplication.models.dashboardDTO.instructor.InstructorRecentFeedbackDTO;
+import com.example.portalapplication.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class InstructorDashboardService {
+    @Autowired
+    SubmissionRepository submissionRepo;
+    @Autowired
+    CourseRepository courseRepo;
+    @Autowired
+    TeamRepository teamRepo;
+    @Autowired
+    SubmissionVersionRepository versionRepo;
+    @Autowired
+    FeedbackRepository feedbackRepo;
+
     public InstructorDashboardStatsDTO getStats(int instructorId) {
-        InstructorDashboardStatsDTO dto = new InstructorDashboardStatsDTO();
-        dto.setPendingReview(6);
-        dto.setSubmissionThisWeek(12);
-        dto.setCompletedFeedback(48);
-        return dto;
+        //How many submissions need review?
+        int pendingReview = versionRepo.countPendingReviews(instructorId);
+        // Submissions within the last 7 days
+        LocalDateTime weekAgo = LocalDateTime.now().minusDays(7);
+        int submissionThisWeek = versionRepo.countVersionsSubmittedThisWeek(instructorId, weekAgo);
+        // Completed feedback count
+        int completedFeedback = feedbackRepo.countCompletedFeedback(instructorId);
+
+        return new InstructorDashboardStatsDTO(
+                pendingReview,
+                submissionThisWeek,
+                completedFeedback
+        );
     }
 
     public List<InstructorPendingReviewDTO> getPendingReviews(int instructorId) {
-        InstructorPendingReviewDTO r1 = new InstructorPendingReviewDTO();
-        r1.setVersionId(100);
-        r1.setTeamName("Team Alpha");
-        r1.setSubmissionTitle("Milestone 2");
-        r1.setVersion("v3");
-        r1.setLate(false);
-        r1.setSubmittedAt("3 hours ago");
+        // Get all submissions that need review
+        List<SubmissionVersion> versions = versionRepo.findPendingVersions(instructorId);
 
-        InstructorPendingReviewDTO r2 = new InstructorPendingReviewDTO();
-        r2.setVersionId(101);
-        r2.setTeamName("UX Innovators");
-        r2.setSubmissionTitle("Wireframe Draft");
-        r2.setVersion("v1");
-        r2.setLate(true);
-        r2.setSubmittedAt("1 day ago");
+        List<InstructorPendingReviewDTO> result = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
 
-        return List.of(r1, r2);
+        for (SubmissionVersion v : versions) {
+            Submission sub = v.getSubmission();
+            int versionId = v.getId();
+            String teamName = sub.getTeam().getName();
+            String submissionTitle = sub.getName();
+            String versionLabel = v.getVersionLabel();
+
+            // Late logic based on deadline
+            boolean late = false;
+            if (sub.getDeadline() != null) {
+                late = v.getSubmittedAt().isAfter(sub.getDeadline());
+            }
+
+            // Time difference "x hours ago"
+            Duration duration = Duration.between(v.getSubmittedAt(), now);
+            String submittedAgo;
+
+            if (duration.toMinutes() < 1)
+                submittedAgo = "just now";
+            else if (duration.toMinutes() < 60)
+                submittedAgo = duration.toMinutes() + " minutes ago";
+            else if (duration.toHours() < 24)
+                submittedAgo = duration.toHours() + " hours ago";
+            else
+                submittedAgo = duration.toDays() + " days ago";
+
+            // Build DTO
+            InstructorPendingReviewDTO dto = new InstructorPendingReviewDTO(
+                    versionId,
+                    teamName,
+                    submissionTitle,
+                    versionLabel,
+                    late,
+                    submittedAgo
+            );
+
+            result.add(dto);
+        }
+        return result;
     }
 
     public List<InstructorCourseOverviewDTO> getCourseOverview(int instructorId) {
-        InstructorCourseOverviewDTO c1 = new InstructorCourseOverviewDTO();
-        c1.setCourseId(200);
-        c1.setCourseName("COMP 3001");
-        c1.setTeamCount(3);
-        c1.setActiveSubmissions(5);
+        //Get all courses taught by this instructor
+        List<Course> courses = courseRepo.findByInstructor_Id(instructorId);
+        // Prepare list to return
+        List<InstructorCourseOverviewDTO> result = new ArrayList<>();
+        // Loop through each course
+        for (Course course : courses) {
+            int courseId = course.getId();
+            String courseName = course.getName();
+            // Count how many teams are in this course
+            int teamCount = teamRepo.countByCourse_Id(courseId);
+            // Count active (pending) submissions
+            int activeSubmissions = submissionRepo.countActiveSubmissions(courseId);
+            // Build DTO
+            InstructorCourseOverviewDTO dto = new InstructorCourseOverviewDTO(
+                            courseId,
+                            courseName,
+                            teamCount,
+                            activeSubmissions
+                    );
 
-        InstructorCourseOverviewDTO c2 = new InstructorCourseOverviewDTO();
-        c2.setCourseId(201);
-        c2.setCourseName("UX 210");
-        c2.setTeamCount(2);
-        c2.setActiveSubmissions(3);
+            result.add(dto);
+        }
 
-        return List.of(c1, c2);
+        return result;
     }
 
     public List<InstructorRecentFeedbackDTO> getRecentFeedback(int instructorId) {
-        InstructorRecentFeedbackDTO f1 = new InstructorRecentFeedbackDTO();
-        f1.setFeedbackId(900);
-        f1.setSubmissionTitle("Milestone 2");
-        f1.setTeamName("Team Alpha");
-        f1.setDate("2025-02-15");
-        f1.setGrade("A");
+        // Step 1: Fetch feedback entries given on versions of this instructor's courses
+        List<Feedback> feedbackList = feedbackRepo.findRecentFeedback(instructorId);
+        List<InstructorRecentFeedbackDTO> result = new ArrayList<>();
 
-        InstructorRecentFeedbackDTO f2 = new InstructorRecentFeedbackDTO();
-        f2.setFeedbackId(901);
-        f2.setSubmissionTitle("Wireframe Draft");
-        f2.setTeamName("UX Innovators");
-        f2.setDate("2025-02-14");
-        f2.setGrade("B+");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm");
 
-        return List.of(f1, f2);
+        // Step 2: Build DTOs
+        for (Feedback f : feedbackList) {
+
+            SubmissionVersion version = f.getVersion();
+            Submission sub = version.getSubmission();
+
+            int feedbackId = f.getId();
+            String submissionTitle = sub.getName();
+            String teamName = sub.getTeam().getName();
+
+            // Feedback timestamp
+            String date = f.getCreatedAt() != null
+                    ? f.getCreatedAt().format(formatter)
+                    : "N/A";
+
+            // Final grade on Submission
+            String grade = sub.getGrade() != null
+                    ? String.valueOf(sub.getGrade())
+                    : "Not graded";
+
+            InstructorRecentFeedbackDTO dto = new InstructorRecentFeedbackDTO(
+                    feedbackId,
+                    submissionTitle,
+                    teamName,
+                    date,
+                    grade
+            );
+
+            result.add(dto);
+        }
+
+        return result;
     }
+
 }

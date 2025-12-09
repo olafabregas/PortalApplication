@@ -7,6 +7,13 @@ public class InstructorRecentFeedbackDTO {
     private String date;
     private String grade;
 
+    public InstructorRecentFeedbackDTO(int feedbackId, String submissionTitle,String teamName,  String date, String grade) {
+        this.date = date;
+        this.feedbackId = feedbackId;
+        this.grade = grade;
+        this.submissionTitle = submissionTitle;
+        this.teamName = teamName;
+    }
     //GETTERS AND SETTERS
 
     public String getDate() {

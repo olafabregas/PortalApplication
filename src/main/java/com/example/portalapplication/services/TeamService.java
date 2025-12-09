@@ -5,7 +5,7 @@ import com.example.portalapplication.models.Course;
 import com.example.portalapplication.models.Team;
 import com.example.portalapplication.models.User;
 import com.example.portalapplication.repositories.*;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -85,10 +85,10 @@ public class TeamService {
                 .findFirst()
                 .orElse(null);
     }
-    @Transactional
+    @Transactional(noRollbackFor = DeleteNotAllowedException.class)
     public void deleteOrDisableTeam(Integer teamId) {
 
-        // Find team or error
+        // Find team
         Team team = this.findById(teamId);
         // Check if team has any submissions
         boolean hasSubmissions = subRepo.existsByTeam_Id(teamId);

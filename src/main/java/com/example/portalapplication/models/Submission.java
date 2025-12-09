@@ -22,19 +22,10 @@ public class Submission {
 
     private String name;//  submission name
     private Double grade; // Grade assigned by instructor
-    private String feedback; // Instructor feedback
-    private LocalDateTime submittedAt;// Timestamp
     private LocalDateTime deadline;
 
-    private boolean late;
 
     //GETTERS AND SETTERS
-    public String getFeedback() {
-        return feedback;
-    }
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
-    }
     public String getName() {
         return name;
     }
@@ -66,15 +57,6 @@ public class Submission {
     public void setStudent(User student) {
         this.student = student;
     }
-
-    public LocalDateTime getSubmittedAt() {
-        return submittedAt;
-    }
-
-    public void setSubmittedAt(LocalDateTime submittedAt) {
-        this.submittedAt = submittedAt;
-    }
-
     public LocalDateTime getDeadline() {
         return deadline;
     }
@@ -82,15 +64,6 @@ public class Submission {
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
-
-    public boolean isLate() {
-        return late;
-    }
-
-    public void setLate(boolean late) {
-        this.late = late;
-    }
-
     public Team getTeam() {
         return team;
     }

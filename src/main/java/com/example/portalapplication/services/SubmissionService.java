@@ -35,12 +35,6 @@ public class SubmissionService {
     public Submission saveSubmission(Submission submission, Integer studentId, Integer teamId) {
         submission.setStudent(userService.findById(studentId));
         submission.setTeam(teamService.findById(teamId));
-        submission.setSubmittedAt(LocalDateTime.now());
-
-        // calculate late
-        if (submission.getDeadline() != null && submission.getSubmittedAt() != null) {
-            submission.setLate(submission.getSubmittedAt().isAfter(submission.getDeadline()));
-        }
 
         return repo.save(submission);
     }

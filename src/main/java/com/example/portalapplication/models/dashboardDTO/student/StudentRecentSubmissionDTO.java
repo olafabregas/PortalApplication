@@ -7,6 +7,14 @@ public class StudentRecentSubmissionDTO {
     private String status;
     private String lastUpdated;
 
+    public StudentRecentSubmissionDTO(int submissionId, String submissionTitle, String courseName, String status, String lastUpdated) {
+        this.courseName = courseName;
+        this.lastUpdated = lastUpdated;
+        this.status = status;
+        this.submissionId = submissionId;
+        this.submissionTitle = submissionTitle;
+    }
+
     //GETTERS AND SETTERS
     public String getLastUpdated() {
         return lastUpdated;

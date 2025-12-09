@@ -31,6 +31,6 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
 
     int countByCourse_Id(Integer courseId);
     void deleteByCourse_Id(Integer courseId);
-
+    int countByMembers_Id(Integer studentId);
 
 }

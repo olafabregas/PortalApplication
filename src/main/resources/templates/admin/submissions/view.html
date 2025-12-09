@@ -31,11 +31,6 @@
                 <span th:text="${'Submitted By: ' + submission.student.firstName + ' ' +  submission.student.lastName }"></span>
             </div>
             <div class="details-item">
-                <span th:text="${'Submitted On: ' + submission.submittedAt }"></span>
-                <span class="badge bg-danger" th:if="${submission.late}">late</span>
-                <span class="badge bg-success" th:if="${!submission.late}">on-time</span>
-            </div>
-            <div class="details-item">
                 <span th:text="${'Deadline: ' + submission.deadline }"></span>
             </div>
         </div>
@@ -43,15 +38,12 @@
             <div class="details-item">
                 <span th:text="${'Grade: ' + submission.grade }"></span>
             </div>
-            <div class="details-item">
-                <span th:text="${'Feedback: ' + submission.feedback }"></span>
-            </div>
         </div>
             <!-- Action Buttons -->
             <div class="entity-action">
 
                 <a th:href="@{/admin/submissions/edit/{id}(id=${submission.id})}" class="btn btn-primary">
-                    Edit Team
+                    Edit Submission
                 </a>
 
                 <form th:action="@{/admin/submissions/delete/{id}(id=${submission.id})}"
@@ -61,6 +53,51 @@
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </div>
+        <h3>Submission Versions</h3>
+
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+            <tr>
+                <th>Version</th>
+                <th>Submitted At</th>
+                <th>Late?</th>
+                <th>Instructor Feedback</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="v : ${versions}">
+
+                <!-- Version label -->
+                <td th:text="${v.versionLabel}">v1</td>
+
+                <!-- Submitted time formatted -->
+                <td th:text="${#temporals.format(v.submittedAt, 'MMM dd, yyyy HH:mm')}"></td>
+
+                <!-- Late badge -->
+                <td>
+                    <span th:if="${v.late}" class="badge bg-danger">Late</span>
+                    <span th:if="${!v.late}" class="badge bg-success">On Time</span>
+                </td>
+
+                <!-- Feedback (if exists) -->
+                <td>
+            <span th:if="${v.feedback != null}"
+                  th:text="${v.feedback.comments}"></span>
+                    <span th:if="${v.feedback == null}">No feedback</span>
+                </td>
+
+                <!-- Actions: View or Download -->
+                <td>
+                    <a th:href="@{/admin/versions/{id}(id=${v.id})}" class="btn btn-sm btn-primary">
+                        View
+                    </a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

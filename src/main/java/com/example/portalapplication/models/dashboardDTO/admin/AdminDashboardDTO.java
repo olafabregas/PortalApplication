@@ -1,36 +1,47 @@
 package com.example.portalapplication.models.dashboardDTO.admin;
 
 public class AdminDashboardDTO {
-    private long users;
-    private long courses;
-    private long teams;
-    private long submissions;
+    private Integer users;
+    private Integer courses;
+    private Integer teams;
+    private Integer submissions;
 
-    public long getCourses() {
+    public AdminDashboardDTO(Integer users, Integer courses, Integer teams,  Integer submissions) {
+        this.courses = courses;
+        this.submissions = submissions;
+        this.teams = teams;
+        this.users = users;
+    }
+
+    public Integer getCourses() {
         return courses;
     }
-    public void setCourses(long courses) {
+
+    public void setCourses(Integer courses) {
         this.courses = courses;
     }
 
-    public long getSubmissions() {
+    public Integer getSubmissions() {
         return submissions;
     }
-    public void setSubmissions(long submissions) {
+
+    public void setSubmissions(Integer submissions) {
         this.submissions = submissions;
     }
 
-    public long getTeams() {
+    public Integer getTeams() {
         return teams;
     }
-    public void setTeams(long teams) {
+
+    public void setTeams(Integer teams) {
         this.teams = teams;
     }
 
-    public long getUsers() {
+    public Integer getUsers() {
         return users;
     }
-    public void setUsers(long users) {
+
+    public void setUsers(Integer users) {
         this.users = users;
     }
 }

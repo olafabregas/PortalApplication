@@ -5,6 +5,11 @@ public class InstructorDashboardStatsDTO {
     private int submissionThisWeek;
     private int completedFeedback;
 
+    public InstructorDashboardStatsDTO(int pendingReview, int submissionThisWeek, int completedFeedback) {
+        this.completedFeedback = completedFeedback;
+        this.pendingReview = pendingReview;
+        this.submissionThisWeek = submissionThisWeek;
+    }
     //GETTERS AND SETTERS
 
     public int getPendingReview() {

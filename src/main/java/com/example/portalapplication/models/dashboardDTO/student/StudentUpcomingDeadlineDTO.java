@@ -6,6 +6,13 @@ public class StudentUpcomingDeadlineDTO {
     private String dueText; // text that described deadline (due in ... days, overdue by ... days)
     private boolean overdue;
 
+    public StudentUpcomingDeadlineDTO(String submissionTitle, String courseName, String dueText, boolean overdue) {
+        this.courseName = courseName;
+        this.dueText = dueText;
+        this.overdue = overdue;
+        this.submissionTitle = submissionTitle;
+    }
+
     //GETTERS AND SETTERS
     public String getCourseName() {
         return courseName;

@@ -18,8 +18,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
         OR LOWER(i.lastName) LIKE LOWER(CONCAT('%', :keyword, '%'))
     """)
     List<Course> searchCourses(@Param("keyword") String keyword);
-    // search for course by course name or code
-    List<Course> findByNameContainingIgnoreCaseOrCodeContainingIgnoreCase(String name, String code);
 
     // Find every course that a specific student is enrolled in
     List<Course> findByStudents_Id(Integer studentId);
@@ -27,6 +25,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     // Used to prevent deleting an instructor that is teaching a course
     boolean existsByInstructor_Id(Integer instructorId);
 
+    List<Course> findByInstructor_Id(Integer instructorId);
 
 
 }

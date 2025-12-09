@@ -2,10 +2,11 @@ package com.example.portalapplication.services;
 
 import com.example.portalapplication.exceptions.DeleteNotAllowedException;
 import com.example.portalapplication.models.Course;
+import com.example.portalapplication.models.Team;
 import com.example.portalapplication.models.User;
 import com.example.portalapplication.models.enums.Role;
 import com.example.portalapplication.repositories.*;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -114,17 +115,22 @@ public class CourseService {
                 )
                 .collect(Collectors.toList());
     }
-    @Transactional
+    @Transactional(noRollbackFor = DeleteNotAllowedException.class)
     public void deleteOrDisableCourse(Integer courseId) {
-        // Find course or throw
+        // Find course
         Course course = this.findById(courseId);
 
         // Check if ANY team inside this course has submissions
         boolean teamHasSubmission = subRepo.existsByTeam_Course_Id(courseId);
         // If submissions exist disable and send error message
         if (teamHasSubmission) {
+            // disable teams in course
+            for (Team t : teamRepo.findByCourse_Id(courseId)) {
+                t.setActive(false);
+                teamRepo.save(t);
+            }
             course.setActive(false);
-            repo.saveAndFlush(course);
+            repo.save(course);
             throw new DeleteNotAllowedException(
                     "Course has teams with submissions. It was disabled instead."
             );

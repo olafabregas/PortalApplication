@@ -8,6 +8,15 @@ public class InstructorPendingReviewDTO {
     private boolean late;
     private String submittedAt;// how long ago it was submitted
 
+    public InstructorPendingReviewDTO(int versionId, String teamName,String submissionTitle, String version, boolean late, String submittedAt) {
+        this.late = late;
+        this.submissionTitle = submissionTitle;
+        this.submittedAt = submittedAt;
+        this.teamName = teamName;
+        this.version = version;
+        this.versionId = versionId;
+    }
+
     //GETTERS AND SETTERS
     public boolean isLate() {
         return late;

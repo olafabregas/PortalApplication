@@ -12,6 +12,12 @@ public class StudentDashboardStatsDTO {
     // submission that the student hasn't received feedback on yet
     private int pendingFeedback;
 
+    public StudentDashboardStatsDTO(int teamCount, int activeSubmissions, int pendingFeedback) {
+        this.activeSubmissions = activeSubmissions;
+        this.pendingFeedback = pendingFeedback;
+        this.teamCount = teamCount;
+    }
+
     //GETTERS AND SETTERS
     public int getActiveSubmissions() {
         return activeSubmissions;

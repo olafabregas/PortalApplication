@@ -15,7 +15,6 @@
         <th>Course</th>
         <th>Name</th>
         <th>Submitted By</th>
-        <th>Submitted On</th>
         <th class="col-actions"></th>
     </tr>
     </thead>
@@ -27,7 +26,6 @@
         <td th:text="${s.team.course.code + '(' + s.team.name + ')'}"></td>
         <td th:text="${s.name}"></td>
         <td th:text="${s.student.firstName + ' ' + s.student.lastName}"></td>
-        <td th:text="${s.submittedAt}"></td>
 
         <!-- Actions -->
         <td class="actions-cell">

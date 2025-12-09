@@ -1,10 +1,17 @@
 package com.example.portalapplication.models.dashboardDTO.instructor;
 
 public class InstructorCourseOverviewDTO {
-    private int courseId; // lint to view course
+    private int courseId; // link to view course
     private String courseName;
     private int teamCount;
     private int activeSubmissions;
+
+    public InstructorCourseOverviewDTO(int courseId, String courseName, int teamCount, int activeSubmissions) {
+        this.activeSubmissions = activeSubmissions;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.teamCount = teamCount;
+    }
 
     //GETTERS AND SETTERS
 

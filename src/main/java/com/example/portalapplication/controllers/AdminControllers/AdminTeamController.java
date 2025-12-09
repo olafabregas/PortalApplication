@@ -114,11 +114,10 @@ public class AdminTeamController {
             // Try deleting or disabling the team
             teamService.deleteOrDisableTeam(id);
             redirect.addFlashAttribute("success", "Team deleted successfully.");
-            return "redirect:/admin/teams/" + id;
         } catch (DeleteNotAllowedException e) {
-
             // Team had submissions → soft delete occurred
             redirect.addFlashAttribute("error", e.getMessage());
+            return "redirect:/admin/teams/" + id;
         }
 
         return "redirect:/admin/teams";
